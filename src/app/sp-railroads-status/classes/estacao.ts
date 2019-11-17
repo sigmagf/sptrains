@@ -1,6 +1,6 @@
 export class Estacao {
     nome: string;
     display: string;
-    problema: boolean;
+    problema: number;
     elevador: boolean;
 }

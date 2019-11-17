@@ -11,6 +11,7 @@ export class GetStatusService {
   constructor(private http: HttpClient) { }
 
   getLinesStatus() {
-    return this.http.get<LineModel[]>('https://metro-sp-api.herokuapp.com/');
+    //return this.http.get<LineModel[]>('https://metro-sp-api.herokuapp.com/');
+    return this.http.get<LineModel[]>('//localhost:3000');
   }
 }

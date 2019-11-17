@@ -1,30 +1,29 @@
 <div class="container">
     <div class="form-row">
-        <div class="col-6 mx-auto">
-            <ul>
-                <li *ngFor="let linha of linhas">
-                    <mdb-badge pill="true" color="linha-{{ linha.linha }}" class="linha-container" (click)="openModalStatus(linha); statusModal.show();">
-                        <img src="assets/imagens/{{ linha.controle }}-LOGO.png" class="operadoras-logo"> {{ linha.linha }} - {{ linha.cor }} <mdb-badge color="status-{{ linha.status | statusConvert }}">{{linha.status}}</mdb-badge>
-                    </mdb-badge>
-                </li>
-            </ul>
+        <div class="col-3 mx-auto">
+            <mdb-badge *ngFor="let linha of linhas" pill="true" color="linha-{{ linha.linha }}" class="linha-container" (click)="openModalStatus(linha); statusModal.show();">
+                <img src="assets/imagens/{{ linha.controle }}-LOGO.png" class="operadoras-logo">
+                {{ linha.linha }} - {{ linha.cor }}
+                <mdb-badge pill="true" color="status status-{{ linha.status | statusConvert }}">{{linha.status}}</mdb-badge>
+            </mdb-badge>
         </div>
     </div>
 </div>
 
 
 <div mdbModal #statusModal="mdbModal" class="modal fade" tabindex="-1" role="dialog">
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close pull-right" aria-label="Close" (click)="statusModal.hide()">×</button>
-            <h4 class="modal-title w-100">{{ statusModalInfo.titulo }}</h4>
-        </div>
-        <div class="modal-body">
-            {{ statusModalInfo.corpo }}
-        </div>
-        <div class="modal-footer">
-            {{ statusModalInfo.rodape }}
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="statusModal.hide()">×</button>
+                <h4 class="modal-title w-100">{{ statusModalInfo.titulo }}</h4>
+            </div>
+            <div class="modal-body">
+                {{ statusModalInfo.corpo }}
+            </div>
+            <div class="modal-footer">
+                {{ statusModalInfo.rodape }}
+            </div>
         </div>
     </div>
 </div>

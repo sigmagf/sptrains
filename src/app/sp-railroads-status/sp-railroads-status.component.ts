@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LineModel } from './classes/lineModel';
-import { GetStatusService } from './services/get-status.service';
+import { Linha } from './classes/Linha';
+import { GetStatusService } from './services/get-status.service';;
+import { ModalComponent } from './modal/modal.component';
 
-import { ModalInfo } from './classes/modalInfo';
 import { timer } from 'rxjs';
+import { MDBModalRef, MDBModalService } from 'angular-bootstrap-md'
 
 @Component({
   selector: 'app-sp-railroads-status',
@@ -13,28 +14,24 @@ import { timer } from 'rxjs';
 })
 export class SpRailroadsStatusComponent implements OnInit {
 
-  linhas: LineModel[];
-  statusModalInfo: ModalInfo = new ModalInfo;
+  linhas: Linha[];
 
-  constructor(private lineStatus: GetStatusService) { }
+  modalRef: MDBModalRef;
+
+  constructor(private lineStatus: GetStatusService, private modalService: MDBModalService) { }
 
   ngOnInit() {
-    //let callTimer = timer(0,5000);
-    this.lineStatus.getLinesStatus().subscribe(response => this.linhas = response);
-    // callTimer.subscribe(() => {
-    //   this.lineStatus.getLinesStatus().subscribe(response => this.linhas = response);
-    // })
+    //let callTimer = timer(0,50000);
+    //callTimer.subscribe(() => {
+      this.lineStatus.getLinesStatus().subscribe(response => this.linhas = response);
+    //})
   }
-  
 
-  openModalStatus(linha: LineModel) {
-    let data = linha.atualizado.split(' ');
-
-    this.statusModalInfo = {
-      titulo: `${linha.linha}-${linha.cor}`,
-      corpo: linha.detalhe != '' ? linha.detalhe : linha.status,
-      rodape: `ATUALIZADO EM ${data[0]} AS ${data[1]}`
-    }
+  openModal(linha: Linha) {
+    this.modalRef = this.modalService.show(ModalComponent, {
+      class: 'modal-lg',
+      data: { linha: linha }
+    });
   }
 
 }

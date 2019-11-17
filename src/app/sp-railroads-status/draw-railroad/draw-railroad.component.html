@@ -1,0 +1,3 @@
+<div class="linha-barra {{ linha }}" [style.width.px]="width">
+    <div class="estacao {{ estacao.problema ? 'problema' : '' }} {{ estacao.elevador ? 'elevador' : '' }}" *ngFor="let estacao of estacoes"><label>{{ estacao.display }}</label></div>
+</div>

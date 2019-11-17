@@ -1,9 +1,11 @@
-export class LineModel {
-    linha: string;
+import { Estacao } from './estacao';
+
+export class Linha {
+    codigo: number;
     cor: string;
     controle: string;
     status: string;
     detalhe: string;
-    mensagem: string;
+    estacoes: Estacao[];
     atualizado: string;
 }

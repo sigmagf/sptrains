@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">&times;</button>
+    <h4 class="modal-title w-100" id="myModalLabel">LINHA {{ linha.codigo }} - {{ linha.cor }}</h4>
+</div>
+<div class="modal-body">
+    <app-draw-railroad [width]="linha.estacoes.length * 26" [linha]="'linha-' + linha.codigo" [estacoes]="linha.estacoes"></app-draw-railroad>
+    <br>
+    <br>
+    <br>
+    <br>
+    {{ linha.detalhe == ''? linha.status : linha.detalhe }}
+</div>
+<div class="modal-footer">
+    ATUALIZADO EM {{ linha.atualizado.split(' ')[0] }} AS {{ linha.atualizado.split(' ')[1] }}
+</div>

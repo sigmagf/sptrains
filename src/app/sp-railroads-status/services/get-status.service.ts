@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { LineModel } from '../classes/lineModel';
+import { Linha } from '../classes/Linha';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,6 @@ export class GetStatusService {
 
   getLinesStatus() {
     //return this.http.get<LineModel[]>('https://metro-sp-api.herokuapp.com/');
-    return this.http.get<LineModel[]>('//localhost:3000');
+    return this.http.get<Linha[]>('//localhost:3000');
   }
 }

@@ -1,11 +1,18 @@
 <div class="container p-0">
     <div class="form-row m-0">
-        <div class="col-10 col-md-3 mx-auto" style="padding-bottom: 20px;">
+        <div class="col-8 col-md-4 col-lg-3 mx-auto" style="padding-bottom: 20px;">
             <mdb-badge *ngFor="let linha of linhas" pill="true" color="linha-{{ linha.codigo }}" class="linha-container" (click)="openModal(linha);">
                 <img src="assets/imagens/{{ linha.controle }}-LOGO.png" class="operadoras-logo">
                 {{ linha.codigo }} - {{ linha.cor }}
                 <mdb-badge pill="true" color="status status-{{ linha.status | statusConvert }}">{{ linha.status }}</mdb-badge>
             </mdb-badge>
+        </div>
+    </div>
+
+    <div class="form-row m-0">
+        <div class="col-12 text-center">
+            Dados fornecidos pelas empresas responsáveis pelas linhas:<br>
+            <a href="http://www.metro.sp.gov.br/" target="_blank">METRÔ</a>, <a href="https://www.cptm.sp.gov.br/" target="_blank">CPTM</a>, <a href="http://www.viaquatro.com.br/" target="_blank">VIA QUATRO</a> e <a href="https://www.viamobilidade.com.br/" target="_blank">VIA MOBILIDADE</a>.
         </div>
     </div>
 </div>

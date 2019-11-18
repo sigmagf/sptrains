@@ -1,9 +1,6 @@
 <div class="container p-0">
     <div class="form-row m-0">
-        <div class="col-9">
-            
-        </div>
-        <div class="col-3 pb-4">
+        <div class="col-3 mx-auto" style="padding-bottom: 20px;">
             <mdb-badge *ngFor="let linha of linhas" pill="true" color="linha-{{ linha.codigo }}" class="linha-container" (click)="openModal(linha);">
                 <img src="assets/imagens/{{ linha.controle }}-LOGO.png" class="operadoras-logo">
                 {{ linha.codigo }} - {{ linha.cor }}

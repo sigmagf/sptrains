@@ -29,7 +29,7 @@ export class SpRailroadsStatusComponent implements OnInit {
 
   openModal(linha: Linha) {
     this.modalRef = this.modalService.show(ModalComponent, {
-      class: 'modal-lg',
+      class: '',
       data: { linha: linha }
     });
   }

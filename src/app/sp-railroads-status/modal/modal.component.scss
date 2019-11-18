@@ -1,0 +1,10 @@
+.linha-container-col {
+    max-height: 318px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.linha-container-col::-webkit-scrollbar { width: 5px; }
+.linha-container-col::-webkit-scrollbar-track { background: #f1f1f1; }
+.linha-container-col::-webkit-scrollbar-thumb { background: #888; }
+.linha-container-col::-webkit-scrollbar-thumb:hover { background: #555; }

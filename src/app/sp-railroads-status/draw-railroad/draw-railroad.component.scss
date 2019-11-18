@@ -18,21 +18,17 @@
 
 .linha-barra {
     border-radius: 32px;
-    height: 16px;
-    padding: 0;
-
-    display: flex;
+    width: 20px;
+    padding: 1px 0;
 }
 
 .estacao {
-    margin: 2px 8px;
+    margin: 16px auto;
     border-radius: 100%;
-    width: 10px;
-    height: 10px;
-    border: 1px solid white;
+    width: 14px;
+    height: 14px;
+    border: 2px solid white;
     background-color: white;
-
-    position: relative;
 }
 
 .elevador {
@@ -44,14 +40,8 @@
 .problema-2 { background-color: rgb(138, 138, 138) !important; }
 
 .estacao label {
-    position: absolute;
-    left: -23px;
-    top: 44px;
-    border: 1px solid lightgray;
-    border-radius: 50px;
-    transform: rotate(45deg);
+    transform: translate(17px, -7px);
     font-weight: bold;
-    width: 150px;
-    padding: 0 0 0 20px;
-    font-size: 10px;
+    width: 200px;
+    font-size: 10pt;
 }

@@ -10,8 +10,6 @@ export class DrawRailroadComponent implements OnInit {
 
   @Input() estacoes: Estacao[];
   @Input() linha: string;
-  @Input() width: number;
-
   constructor() { }
 
   ngOnInit() { }

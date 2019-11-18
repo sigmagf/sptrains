@@ -21,7 +21,7 @@ export class SpRailroadsStatusComponent implements OnInit {
   constructor(private lineStatus: GetStatusService, private modalService: MDBModalService) { }
 
   ngOnInit() {
-    let callTimer = timer(0,50000);
+    let callTimer = timer(0,5000);
     callTimer.subscribe(() => {
       this.lineStatus.getLinesStatus().subscribe(response => this.linhas = response);
     });

@@ -1,11 +1,4 @@
-export interface IAPIResponse {
-  LinhaId: number;
-  Status: string;
-  Descricao: string;
-  Nome: string;
-  Tipo: 'M'|'4'|'5'|'C';
-  DataGeracao: Date;
-}
+export type IAPIResponse = Omit<ILine, 'color'>;
 
 export interface ILineColor {
   color: string;
@@ -20,4 +13,8 @@ export interface ILine {
   details: string;
   operator: 'M'|'4'|'5'|'C';
   updatedAt: Date;
+}
+
+export interface ILinesColor {
+  [x: number]: ILineColor;
 }

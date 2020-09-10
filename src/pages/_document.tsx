@@ -35,6 +35,7 @@ export default class MyDocument extends Document {
       <Html lang="pt-BR">
         <Head>
           <meta charSet="utf-8" />
+          <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,600" />
           <link rel="shortcut icon" href={favicon} type="image/png" />
         </Head>

@@ -1,5 +1,3 @@
-export type IAPIResponse = Omit<ILine, 'color'>;
-
 export interface ILineColor {
   color: string;
   text: string;
@@ -17,4 +15,13 @@ export interface ILine {
 
 export interface ILinesColor {
   [x: number]: ILineColor;
+}
+
+export interface IStatusResponse {
+  LinhaId: number;
+  Nome: string;
+  Status: string;
+  Descricao: string;
+  Tipo: 'M'|'C'|'4'|'5';
+  DataGeracao: Date;
 }

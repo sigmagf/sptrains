@@ -8,13 +8,11 @@ import { LineCard } from '~/components/LineCard';
 
 import { IndexContainer } from '~/styles/pages/index';
 
-import { ILine, IAPIResponse, ILinesColor } from '~/interfaces';
+import { ILine, ILinesColor, IStatusResponse } from '~/interfaces';
 
 interface IIndexProps {
   lines: ILine[];
 }
-
-const apiUrl = 'https://sptrains.herokuapp.com/lines/status';
 
 const lineColors: ILinesColor = {
   1: { color: '#171796', text: '#FFFFFF' },
@@ -35,25 +33,35 @@ const lineColors: ILinesColor = {
 const Index: NextPage<IIndexProps> = ({ lines }) => {
   const [linesStates, setLinesStates] = useState<ILine[]>(lines);
 
-  if(process.env.NODE_ENV === 'development') {
-    const getData = useCallback(async () => {
-      const response = await axios.get<IAPIResponse[]>(apiUrl);
+  const getData = useCallback(async () => {
+    const result = await axios.get<IStatusResponse[]>(process.env.API_URL);
 
-      if(response.data) {
-        const result: ILine[] = response.data.map((line) => ({ ...line, color: lineColors[line.id] }));
+    if(!result.data) {
+      throw new Error('Error on get status');
+    }
 
-        setLinesStates(result);
-      }
-    }, []);
+    const newLines = result.data.map((line): ILine => ({
+      id: line.LinhaId,
+      name: line.Nome,
+      color: lineColors[line.LinhaId],
+      status: line.Status,
+      details: line.Descricao,
+      operator: line.Tipo,
+      updatedAt: line.DataGeracao,
+    }));
 
-    useEffect(() => {
+    setLinesStates(newLines);
+  }, []);
+
+  useEffect(() => {
+    if(process.env.NODE_ENV === 'development') {
       if(lines === null) {
         getData();
       }
 
       setInterval(getData, 60000);
-    }, []);
-  }
+    }
+  }, []);
 
   return (
     <>
@@ -68,15 +76,23 @@ const Index: NextPage<IIndexProps> = ({ lines }) => {
 };
 
 Index.getInitialProps = async () => {
-  const response = await axios.get<IAPIResponse[]>(apiUrl);
+  const result = await axios.get<IStatusResponse[]>(process.env.API_URL);
 
-  if(!response.data) {
-    return null;
+  if(!result.data) {
+    throw new Error('Error on get status');
   }
 
-  const result: ILine[] = response.data.map((line) => ({ ...line, color: lineColors[line.id] }));
+  const lines = result.data.map((line): ILine => ({
+    id: line.LinhaId,
+    name: line.Nome,
+    color: lineColors[line.LinhaId],
+    status: line.Status,
+    details: line.Descricao,
+    operator: line.Tipo,
+    updatedAt: line.DataGeracao,
+  }));
 
-  return { lines: result };
+  return { lines };
 };
 
 export default Index;

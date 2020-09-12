@@ -17,10 +17,10 @@ export const LineCardContainer = styled.div<ILineCardContainerStyledProps>`
   height: 50px;
 
   display: grid;
-  grid-template-columns: 50px 1fr;
+  grid-template-columns: 50px 1fr 50px;
   grid-template-rows: 1fr;
 
-  grid-template-areas: 'ID NM';
+  grid-template-areas: 'ID NM IF';
 `;
 
 export const LineNumber = styled.div`
@@ -57,6 +57,8 @@ export const LineTitle = styled.div`
   font-weight: 800;
   font-size: 14px;
 `;
+
+export const LineCardInfo = styled.div``;
 
 export const LineBadges = styled.div`
   position: absolute;

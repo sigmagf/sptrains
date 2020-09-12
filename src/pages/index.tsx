@@ -6,34 +6,37 @@ import axios from 'axios';
 
 import { LineCard } from '~/components/LineCard';
 
+import useLineColor from '~/hooks/useLineColor';
+
 import { IndexContainer } from '~/styles/pages/index';
 
-import { ILine } from '~/interfaces';
+import { IAPIResponse, ILine } from '~/interfaces';
 
 interface IIndexProps {
   lines: ILine[];
 }
 
-interface IRequestError {
-  code: number;
-  message: string;
-}
-
-const apiURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/status' : '/api/status';
+const lineColors = useLineColor();
 
 const Index: NextPage<IIndexProps> = ({ lines }) => {
-  const [linesStates, setLinesStates] = useState<ILine[]>(lines);
-  const [requestError, setRequestError] = useState<IRequestError>(null);
+  const [linesStatus, setLinesStatus] = useState<ILine[]>(lines);
 
-  const getData = useCallback(() => {
-    axios.get<ILine[]>(apiURL).then((result) => {
-      setLinesStates(result.data);
-    }).catch((err) => {
-      setRequestError({
-        code: err.response.status || 0,
-        message: err.response.message || err.message || 'Unexpected error',
-      });
-    });
+  const getData = useCallback(async () => {
+    const result = await axios.get<IAPIResponse[]>(process.env.API_URL);
+
+    if(result.data) {
+      const newStatus = result.data.map((line): ILine => ({
+        id: line.id,
+        name: line.name,
+        color: lineColors[line.id],
+        details: line.details,
+        operator: line.operator,
+        status: line.status,
+        updatedAt: line.updatedAt,
+      }));
+
+      setLinesStatus(newStatus);
+    }
   }, []);
 
   useEffect(() => {
@@ -52,28 +55,30 @@ const Index: NextPage<IIndexProps> = ({ lines }) => {
         <title>SPTrains</title>
       </Head>
       <IndexContainer>
-        {requestError && (
-          <div>
-            <h2>Request Error.</h2>
-            <h3>Code: {requestError.code}</h3>
-            <h5>Message: {requestError.message}</h5>
-          </div>
-
-        )}
-        {!requestError && linesStates.map((line) => <LineCard key={line.id} line={line} />)}
+        {linesStatus.map((line) => <LineCard key={line.id} line={line} />)}
       </IndexContainer>
     </>
   );
 };
 
 Index.getInitialProps = async () => {
-  const result = await axios.get<ILine[]>(apiURL);
+  const result = await axios.get<IAPIResponse[]>(process.env.API_URL);
 
   if(!result.data) {
     return { lines: null };
   }
 
-  return { lines: result.data };
+  const lines = result.data.map((line): ILine => ({
+    id: line.id,
+    name: line.name,
+    color: lineColors[line.id],
+    details: line.details,
+    operator: line.operator,
+    status: line.status,
+    updatedAt: line.updatedAt,
+  }));
+
+  return { lines };
 };
 
 export default Index;

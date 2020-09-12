@@ -58,11 +58,18 @@ export const LineTitle = styled.div`
   font-size: 14px;
 `;
 
-export const LineStatus = styled.div`
+export const LineBadges = styled.div`
   position: absolute;
-  bottom: -10px;
+  bottom: 0;
   right: 20px;
+  height: 10px;
 
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+`;
+
+export const LineStatus = styled.div`
   height: 10px;
   padding: 10px;
   border-radius: 10px;
@@ -72,6 +79,22 @@ export const LineStatus = styled.div`
 
   background: ${({ theme }) => theme.colors.success};
   color: ${({ theme }) => theme.colors.successText};
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const LineUpdatedAt = styled.div`
+  height: 10px;
+  padding: 10px;
+  border-radius: 10px;
+
+  font-weight: 800;
+  font-size: 10px;
+
+  background: #333333;
+  color: #F5F5F5;
 
   display: flex;
   justify-content: flex-start;

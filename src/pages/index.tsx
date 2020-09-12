@@ -35,23 +35,25 @@ const lineColors: ILinesColor = {
 const Index: NextPage<IIndexProps> = ({ lines }) => {
   const [linesStates, setLinesStates] = useState<ILine[]>(lines);
 
-  const getData = useCallback(async () => {
-    const response = await axios.get<IAPIResponse[]>(apiUrl);
+  if(process.env.NODE_ENV === 'development') {
+    const getData = useCallback(async () => {
+      const response = await axios.get<IAPIResponse[]>(apiUrl);
 
-    if(response.data) {
-      const result: ILine[] = response.data.map((line) => ({ ...line, color: lineColors[line.id] }));
+      if(response.data) {
+        const result: ILine[] = response.data.map((line) => ({ ...line, color: lineColors[line.id] }));
 
-      setLinesStates(result);
-    }
-  }, []);
+        setLinesStates(result);
+      }
+    }, []);
 
-  useEffect(() => {
-    if(lines === null) {
-      getData();
-    }
+    useEffect(() => {
+      if(lines === null) {
+        getData();
+      }
 
-    setInterval(getData, 60000);
-  }, []);
+      setInterval(getData, 60000);
+    }, []);
+  }
 
   return (
     <>

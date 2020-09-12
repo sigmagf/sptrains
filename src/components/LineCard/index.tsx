@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
+import { FaInfoCircle } from 'react-icons/fa';
 
 import { useDate } from '~/hooks/useDate';
 
 import { metro, cptm, viamobilidade, viaquatro } from '~/assets';
 import { ILine } from '~/interfaces';
 
-import { LineCardContainer, LineNumber, LineTitle, LineBadges, LineStatus, LineUpdatedAt } from './styles';
+import { LineCardContainer, LineNumber, LineTitle, LineInfo, LineStatus, LineUpdatedAt } from './styles';
 
 interface ILineCardProps {
   line: ILine;
@@ -32,10 +33,10 @@ const LineCard: React.FC<ILineCardProps> = ({ line }) => {
         </div>
       </LineNumber>
       <LineTitle>{ line.name }</LineTitle>
-      <LineBadges>
-        <LineStatus>{ line.status }</LineStatus>
-        <LineUpdatedAt>{ date.fixDate(line.updatedAt, true, 'Atualizado em') }</LineUpdatedAt>
-      </LineBadges>
+      <LineInfo>
+        <LineStatus borderColor={line.color.color}>{ line.status }</LineStatus>
+      </LineInfo>
+      <LineUpdatedAt>{ date.fixDate(line.updatedAt, true, 'Atualizado em') }</LineUpdatedAt>
     </LineCardContainer>
   );
 };

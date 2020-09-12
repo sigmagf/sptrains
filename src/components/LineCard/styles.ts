@@ -1,8 +1,13 @@
+import { border, shade } from 'polished';
 import styled from 'styled-components';
 
 interface ILineCardContainerStyledProps {
   color: string;
   textColor: string;
+}
+
+interface ILineInfoStyledProps {
+  borderColor: string;
 }
 
 export const LineCardContainer = styled.div<ILineCardContainerStyledProps>`
@@ -12,12 +17,14 @@ export const LineCardContainer = styled.div<ILineCardContainerStyledProps>`
   border-radius: 50px;
 
   background: ${({ color }) => color};
-  color: ${({ textColor }) => textColor};
+  > *, svg {
+    color: ${({ textColor }) => textColor};
+  }
 
   height: 50px;
 
   display: grid;
-  grid-template-columns: 50px 1fr 50px;
+  grid-template-columns: 50px 1fr 1fr;
   grid-template-rows: 1fr;
 
   grid-template-areas: 'ID NM IF';
@@ -58,36 +65,38 @@ export const LineTitle = styled.div`
   font-size: 14px;
 `;
 
-export const LineCardInfo = styled.div``;
-
-export const LineBadges = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 20px;
-  height: 10px;
+export const LineInfo = styled.div`
+  grid-area: IF;
+  height: 50px;
+  padding-right: 15px;
 
   display: flex;
-  flex-direction: row;
-  gap: 5px;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
-export const LineStatus = styled.div`
-  height: 10px;
+export const LineStatus = styled.div<ILineInfoStyledProps>`
+  border-radius: 20px;
   padding: 10px;
-  border-radius: 10px;
 
   font-weight: 800;
   font-size: 10px;
 
   background: ${({ theme }) => theme.colors.success};
   color: ${({ theme }) => theme.colors.successText};
+  border: 3px solid ${({ borderColor }) => shade(0.3, borderColor)};
+  box-shadow: 0 1px 4px 0 ${({ theme }) => theme.colors.shaddow};
 
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 `;
 
 export const LineUpdatedAt = styled.div`
+  position: absolute;
+  bottom: -10px;
+  left: 45px;
+
   height: 10px;
   padding: 10px;
   border-radius: 10px;
@@ -99,6 +108,6 @@ export const LineUpdatedAt = styled.div`
   color: #F5F5F5;
 
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 `;

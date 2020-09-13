@@ -1,4 +1,3 @@
-import { border, shade } from 'polished';
 import styled from 'styled-components';
 
 interface ILineCardContainerStyledProps {
@@ -84,8 +83,7 @@ export const LineStatus = styled.div<ILineInfoStyledProps>`
 
   background: ${({ theme }) => theme.colors.success};
   color: ${({ theme }) => theme.colors.successText};
-  border: 3px solid ${({ borderColor }) => shade(0.3, borderColor)};
-  box-shadow: 0 1px 4px 0 ${({ theme }) => theme.colors.shaddow};
+  box-shadow: 0 0 4px 5px ${({ theme }) => theme.colors.shaddow};
 
   display: flex;
   justify-content: center;

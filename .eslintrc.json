@@ -8,7 +8,8 @@
   "extends": [
     "plugin:react/recommended",
     "airbnb",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -46,6 +47,9 @@
 
     /* Enable console */
     "no-console":"off",
+
+    /* Enable alert */
+    "no-alert":"off",
 
     /* Disable object line */
     "object-curly-newline": "off",

@@ -10,22 +10,25 @@ import useLineColor from '~/hooks/useLineColor';
 
 import { IndexContainer } from '~/styles/pages/index';
 
-import { IAPIResponse, ILine } from '~/interfaces';
+import { IStatusAPIResponse, IStatusLine } from '~/interfaces';
 
 interface IIndexProps {
-  lines: ILine[];
+  lines: IStatusLine[];
 }
 
-const lineColors = useLineColor();
+interface IRequestResponse {
+  lines?: IStatusAPIResponse[];
+}
 
-const Index: NextPage<IIndexProps> = ({ lines }) => {
-  const [linesStatus, setLinesStatus] = useState<ILine[]>(lines);
+const Index: NextPage = () => {
+  const [linesStatus, setLinesStatus] = useState<IStatusLine[]>([]);
+  const lineColors = useLineColor();
 
   const getData = useCallback(async () => {
-    const result = await axios.get<IAPIResponse[]>(process.env.API_URL);
+    const result = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
 
     if(result.data) {
-      const newStatus = result.data.map((line): ILine => ({
+      const newStatus = result.data.lines.map((line): IStatusLine => ({
         id: line.id,
         name: line.name,
         color: lineColors[line.id],
@@ -37,17 +40,11 @@ const Index: NextPage<IIndexProps> = ({ lines }) => {
 
       setLinesStatus(newStatus);
     }
-  }, []);
+  }, [lineColors]);
 
   useEffect(() => {
-    if(process.env.NODE_ENV !== 'development') {
-      if(lines === null) {
-        getData();
-      }
-
-      setInterval(getData, 60000);
-    }
-  }, []);
+    setInterval(getData, 60000);
+  }, [getData]);
 
   return (
     <>
@@ -59,26 +56,6 @@ const Index: NextPage<IIndexProps> = ({ lines }) => {
       </IndexContainer>
     </>
   );
-};
-
-Index.getInitialProps = async () => {
-  const result = await axios.get<IAPIResponse[]>(process.env.API_URL);
-
-  if(!result.data) {
-    return { lines: null };
-  }
-
-  const lines = result.data.map((line): ILine => ({
-    id: line.id,
-    name: line.name,
-    color: lineColors[line.id],
-    details: line.details,
-    operator: line.operator,
-    status: line.status,
-    updatedAt: line.updatedAt,
-  }));
-
-  return { lines };
 };
 
 export default Index;

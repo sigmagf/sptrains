@@ -1,15 +1,14 @@
 import React, { useCallback } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
 
 import { useDate } from '~/hooks/useDate';
 
 import { metro, cptm, viamobilidade, viaquatro } from '~/assets';
-import { ILine } from '~/interfaces';
+import { IStatusLine } from '~/interfaces';
 
 import { LineCardContainer, LineNumber, LineTitle, LineInfo, LineStatus, LineUpdatedAt } from './styles';
 
 interface ILineCardProps {
-  line: ILine;
+  line: IStatusLine;
 }
 
 const LineCard: React.FC<ILineCardProps> = ({ line }) => {
@@ -23,7 +22,7 @@ const LineCard: React.FC<ILineCardProps> = ({ line }) => {
       case '4': return viaquatro;
       case '5': return viamobilidade;
     }
-  }, []);
+  }, [line.operator]);
 
   return (
     <LineCardContainer color={line.color.color} textColor={line.color.text}>

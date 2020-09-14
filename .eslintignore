@@ -1,3 +1,4 @@
 node_modules
+__legacy__
 .next
 /*.js

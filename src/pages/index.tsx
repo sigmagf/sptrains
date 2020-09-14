@@ -10,28 +10,27 @@ import useLineColor from '~/hooks/useLineColor';
 
 import { IndexContainer } from '~/styles/pages/index';
 
-import { IStatusAPIResponse, IStatusLine } from '~/interfaces';
+import { IStatusAPIResponse } from '~/interfaces';
 
 interface IIndexProps {
-  lines: IStatusLine[];
+  lines: IStatusAPIResponse[];
 }
 
 interface IRequestResponse {
   lines?: IStatusAPIResponse[];
 }
 
-const Index: NextPage = () => {
-  const [linesStatus, setLinesStatus] = useState<IStatusLine[]>([]);
+const Index: NextPage<IIndexProps> = ({ lines }) => {
+  const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(lines);
   const lineColors = useLineColor();
 
   const getData = useCallback(async () => {
     const result = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
 
     if(result.data) {
-      const newStatus = result.data.lines.map((line): IStatusLine => ({
+      const newStatus = result.data.lines.map((line): IStatusAPIResponse => ({
         id: line.id,
         name: line.name,
-        color: lineColors[line.id],
         details: line.details,
         operator: line.operator,
         status: line.status,
@@ -40,7 +39,7 @@ const Index: NextPage = () => {
 
       setLinesStatus(newStatus);
     }
-  }, [lineColors]);
+  }, []);
 
   useEffect(() => {
     setInterval(getData, 60000);
@@ -52,10 +51,32 @@ const Index: NextPage = () => {
         <title>SPTrains</title>
       </Head>
       <IndexContainer>
-        {linesStatus.map((line) => <LineCard key={line.id} line={line} />)}
+        {
+          linesStatus
+          && linesStatus.map((line) => <LineCard key={line.id} line={{ ...line, color: lineColors[line.id] }} />)
+        }
       </IndexContainer>
     </>
   );
+};
+
+Index.getInitialProps = async () => {
+  const result = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
+
+  if(result.data) {
+    const newStatus = result.data.lines.map((line): IStatusAPIResponse => ({
+      id: line.id,
+      name: line.name,
+      details: line.details,
+      operator: line.operator,
+      status: line.status,
+      updatedAt: line.updatedAt,
+    }));
+
+    return { lines: newStatus };
+  }
+
+  return { lines: null };
 };
 
 export default Index;

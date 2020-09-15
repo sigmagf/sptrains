@@ -1,5 +1,5 @@
 export interface IStatusLineColor {
-  color: string;
+  background: string;
   text: string;
 }
 

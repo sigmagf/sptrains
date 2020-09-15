@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FaTrain, FaBezierCurve, FaUserCog, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { DashboardCard } from '~/components/DashboardCard';
-import { DashboardStatusCard } from '~/components/DashboardStatusCard';
+import { LineStatusCard } from '~/components/LineStatusCard';
 
 import { useAPI } from '~/hooks/useAPI';
 
@@ -14,7 +14,7 @@ import { IStatusAPIResponse } from '~/interfaces';
 
 const Dashboard: NextPage = () => {
   const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
-  const [linesStatusActive, setLinesStatusActive] = useState<>(false);
+  const [linesStatusActive, setLinesStatusActive] = useState(true);
   const api = useAPI();
 
   const getData = useCallback(async () => {
@@ -25,7 +25,7 @@ const Dashboard: NextPage = () => {
 
   useEffect(() => {
     getData();
-    setInterval((getData), 60000);
+    setInterval((getData), 300000);
   }, []);
 
   return (
@@ -35,10 +35,12 @@ const Dashboard: NextPage = () => {
       </Head>
       <DashboardContainer>
         <DashboardStatusContainer active={linesStatusActive}>
-          {linesStatus && linesStatus.map((line) => <DashboardStatusCard key={line.id} line={line} />)}
-          <button type="button" onClick={() => setLinesStatusActive((old) => !old)} className="handler">
-            {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}
-          </button>
+          {linesStatus && linesStatus.map((line) => <LineStatusCard key={line.id} line={line} />)}
+          <div className="handler">
+            <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>
+              {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}
+            </button>
+          </div>
         </DashboardStatusContainer>
         <div className="cards-group">
           <DashboardCard gridArea="S" icon={FaTrain} title="ESTAÇÕES" />

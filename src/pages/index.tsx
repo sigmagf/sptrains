@@ -1,19 +1,19 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useState, useEffect, useCallback } from 'react';
+import { FaCog, FaPen, FaTimes } from 'react-icons/fa';
 
-import { LineCard } from '~/components/LineCard';
+import { LineStatusCard } from '~/components/LineStatusCard';
 
 import { useAPI } from '~/hooks/useAPI';
-import useLineColor from '~/hooks/useLineColor';
 
-import { HomeContainer } from '~/styles/pages/home';
+import { HomeContainer, HomeUserContainer, UserAvatar, UserSettings, UserLogout } from '~/styles/pages/home';
 
 import { IStatusAPIResponse } from '~/interfaces';
 
 const Home: NextPage = () => {
   const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
-  const lineColors = useLineColor();
+  const [lineStatusInterval, setLinesStatusInterval] = useState<NodeJS.Timeout>(null);
   const api = useAPI();
 
   const getData = useCallback(async () => {
@@ -22,9 +22,20 @@ const Home: NextPage = () => {
     setLinesStatus(data);
   }, [api]);
 
-  useEffect(() => {
+  const clearTimer = () => {
+    if(lineStatusInterval) {
+      clearInterval(lineStatusInterval);
+      setLinesStatusInterval(null);
+    }
+  };
+
+  const restartTimer = useCallback(() => {
     getData();
-    setInterval((getData), 60000);
+    setLinesStatusInterval(setTimeout(getData, 300000));
+  }, [getData]);
+
+  useEffect(() => {
+    restartTimer();
   }, []);
 
   return (
@@ -33,10 +44,21 @@ const Home: NextPage = () => {
         <title>SPTrains</title>
       </Head>
       <HomeContainer>
-        {
-          linesStatus
-          && linesStatus.map((line) => <LineCard key={line.id} line={{ ...line, color: lineColors[line.id] }} />)
-        }
+        { linesStatus && linesStatus.map((line) => <LineStatusCard key={line.id} line={{ ...line }} />) }
+        <HomeUserContainer>
+          <UserAvatar>
+            <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="user-avatar" />
+            <div>
+              <FaPen size={20} />
+            </div>
+          </UserAvatar>
+          <UserSettings>
+            <FaCog size={20} />
+          </UserSettings>
+          <UserLogout>
+            <FaTimes size={20} />
+          </UserLogout>
+        </HomeUserContainer>
       </HomeContainer>
     </>
   );

@@ -21,8 +21,8 @@ export const DashboardContainer = styled.main`
     /* XS */
     @media (max-width: 576px) {
       grid-template-areas: 'S'
-                          'L'
-                          'O';
+                           'L'
+                           'O';
       grid-template-columns: 1fr;
       grid-template-rows: 190px 190px 190px;
     }
@@ -30,7 +30,7 @@ export const DashboardContainer = styled.main`
     /* MD */
     @media (min-width: 768px) {
       grid-template-areas: 'S L'
-                          'O O';
+                           'O O';
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 190px 190px;
     }
@@ -45,6 +45,10 @@ export const DashboardContainer = styled.main`
 `;
 
 export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyledProps>`
+  z-index: 100;
+
+  width: 250px;
+
   position: fixed;
   top: 50%;
   left: 0;
@@ -89,6 +93,11 @@ export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyl
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    cursor: pointer;
+    button {
+      background: none;
+      border: none;
+
+      cursor: pointer;
+    }
   }
 `;

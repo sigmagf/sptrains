@@ -30,7 +30,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   main {
-    width: 100%;
     margin: 0 auto;
 
     @media (max-width: 576px) {

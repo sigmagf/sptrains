@@ -6,5 +6,3 @@ __legacy__
 .sigmaconfig.json
 .editorconfig
 README.md
-./src/pages/dashboard
-./src/pages/dashboard/*

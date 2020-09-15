@@ -2,81 +2,44 @@ import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useState, useEffect, useCallback } from 'react';
 
-import axios from 'axios';
-
 import { LineCard } from '~/components/LineCard';
 
+import { useAPI } from '~/hooks/useAPI';
 import useLineColor from '~/hooks/useLineColor';
 
-import { IndexContainer } from '~/styles/pages/index';
+import { HomeContainer } from '~/styles/pages/home';
 
 import { IStatusAPIResponse } from '~/interfaces';
 
-interface IIndexProps {
-  lines: IStatusAPIResponse[];
-}
-
-interface IRequestResponse {
-  lines?: IStatusAPIResponse[];
-}
-
-const Index: NextPage<IIndexProps> = ({ lines }) => {
-  const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(lines);
+const Home: NextPage = () => {
+  const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
   const lineColors = useLineColor();
+  const api = useAPI();
 
   const getData = useCallback(async () => {
-    const result = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
+    const data = await api.getStatus();
 
-    if(result.data) {
-      const newStatus = result.data.lines.map((line): IStatusAPIResponse => ({
-        id: line.id,
-        name: line.name,
-        details: line.details,
-        operator: line.operator,
-        status: line.status,
-        updatedAt: line.updatedAt,
-      }));
-
-      setLinesStatus(newStatus);
-    }
-  }, []);
+    setLinesStatus(data);
+  }, [api]);
 
   useEffect(() => {
-    setInterval(getData, 60000);
-  }, [getData]);
+    getData();
+    setInterval((getData), 60000);
+  }, []);
 
   return (
     <>
       <Head>
         <title>SPTrains</title>
       </Head>
-      <IndexContainer>
+      <HomeContainer>
         {
           linesStatus
           && linesStatus.map((line) => <LineCard key={line.id} line={{ ...line, color: lineColors[line.id] }} />)
         }
-      </IndexContainer>
+      </HomeContainer>
     </>
   );
 };
 
-Index.getInitialProps = async () => {
-  const result = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
-
-  if(result.data) {
-    const newStatus = result.data.lines.map((line): IStatusAPIResponse => ({
-      id: line.id,
-      name: line.name,
-      details: line.details,
-      operator: line.operator,
-      status: line.status,
-      updatedAt: line.updatedAt,
-    }));
-
-    return { lines: newStatus };
-  }
-
-  return { lines: null };
-};
-
-export default Index;
+export default Home;

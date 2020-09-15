@@ -3,6 +3,10 @@ export interface IStatusLineColor {
   text: string;
 }
 
+export interface IStatusLinesColor {
+  [x: number]: IStatusLineColor;
+}
+
 export interface IStatusLine {
   id: number;
   name: string;
@@ -11,10 +15,6 @@ export interface IStatusLine {
   details: string;
   operator: 'M'|'4'|'5'|'C';
   updatedAt: Date;
-}
-
-export interface IStatusLinesColor {
-  [x: number]: IStatusLineColor;
 }
 
 export type IStatusAPIResponse = Omit<IStatusLine, 'color'>;

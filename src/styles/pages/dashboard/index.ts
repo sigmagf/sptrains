@@ -1,5 +1,8 @@
-import { shade } from 'polished';
 import styled from 'styled-components';
+
+interface IDashboardStatusContainerStyledProps {
+  active: boolean
+}
 
 export const DashboardContainer = styled.main`
   position: relative;
@@ -41,11 +44,11 @@ export const DashboardContainer = styled.main`
   }
 `;
 
-export const DashboardStatusContainer = styled.div`
+export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyledProps>`
   position: fixed;
   top: 50%;
   left: 0;
-  transform: translateY(-50%);
+  transform: translateY(-50%) ${({ active }) => !active && 'translateX(-100%)'};
 
   padding: 5px;
   background: ${({ theme }) => theme.colors.background};
@@ -60,6 +63,8 @@ export const DashboardStatusContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
+
+  transition: all 250ms ease;
 
   .handler {
     position: fixed;
@@ -79,8 +84,11 @@ export const DashboardStatusContainer = styled.div`
     border-top: 1px solid ${({ theme }) => theme.colors.shaddow};
     border-right: 1px solid ${({ theme }) => theme.colors.shaddow};
     border-bottom: 1px solid ${({ theme }) => theme.colors.shaddow};
+    border-left: none;
     box-shadow: 3px 3px 4px 0 ${({ theme }) => theme.colors.shaddow};
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+
+    cursor: pointer;
   }
 `;

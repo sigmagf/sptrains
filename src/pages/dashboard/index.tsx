@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useCallback, useEffect, useState } from 'react';
-import { FaTrain, FaBezierCurve, FaUserCog, FaChevronLeft } from 'react-icons/fa';
+import { FaTrain, FaBezierCurve, FaUserCog, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import { DashboardCard } from '~/components/DashboardCard';
 import { DashboardStatusCard } from '~/components/DashboardStatusCard';
@@ -14,6 +14,7 @@ import { IStatusAPIResponse } from '~/interfaces';
 
 const Dashboard: NextPage = () => {
   const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
+  const [linesStatusActive, setLinesStatusActive] = useState<>(false);
   const api = useAPI();
 
   const getData = useCallback(async () => {
@@ -33,11 +34,11 @@ const Dashboard: NextPage = () => {
         <title>Dashboard • SPTrains</title>
       </Head>
       <DashboardContainer>
-        <DashboardStatusContainer>
+        <DashboardStatusContainer active={linesStatusActive}>
           {linesStatus && linesStatus.map((line) => <DashboardStatusCard key={line.id} line={line} />)}
-          <div className="handler">
-            <FaChevronLeft />
-          </div>
+          <button type="button" onClick={() => setLinesStatusActive((old) => !old)} className="handler">
+            {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}
+          </button>
         </DashboardStatusContainer>
         <div className="cards-group">
           <DashboardCard gridArea="S" icon={FaTrain} title="ESTAÇÕES" />

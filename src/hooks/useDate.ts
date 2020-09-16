@@ -1,4 +1,4 @@
-export function useDate() {
+function useDate() {
   const fixDate = (date: string|Date, dateFirst = true, prefix?: string, dateTimeSeparator?: string) => {
     if(!date) {
       return null;
@@ -23,3 +23,5 @@ export function useDate() {
 
   return { fixDate };
 }
+
+export default useDate;

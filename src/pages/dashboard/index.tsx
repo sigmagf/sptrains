@@ -7,8 +7,7 @@ import ReactLoading from 'react-loading';
 import { DashboardCard } from '~/components/DashboardCard';
 import { LineStatusCard } from '~/components/LineStatusCard';
 
-import { useLinesColor } from '~/hooks';
-import { useAPI } from '~/hooks/useAPI';
+import { useLinesColor, useAPI } from '~/hooks';
 
 import { DashboardContainer, DashboardStatusContainer } from '~/styles/pages/dashboard';
 
@@ -18,7 +17,7 @@ const Dashboard: NextPage = () => {
   const [linesStatusActive, setLinesStatusActive] = useState(true);
   const colors = useLinesColor();
 
-  const { data } = useAPI<IAPIStatusRequest>('/lines/status', { method: 'GET' });
+  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' }, { refreshInterval: 300000 });
 
   return (
     <>
@@ -30,7 +29,7 @@ const Dashboard: NextPage = () => {
           {
             (!data || (!data.lines && data.lines.length < 1))
               ? <ReactLoading type="cylon" color="#000000" />
-              : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.of(line.id)} />)
+              : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
           }
           <div className="handler">
             <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>

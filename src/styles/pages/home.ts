@@ -29,6 +29,13 @@ const commonUserButtonStyle = css`
   }
 `;
 
+export const LoadingContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const HomeContainer = styled.main`
   display: grid;
   grid-gap: 15px;
@@ -39,7 +46,7 @@ export const HomeContainer = styled.main`
   max-width: 576px;
 `;
 
-export const HomeUserContainer = styled.div`
+export const UserContainer = styled.div`
   position: fixed;
   top: 20px;
   right: 20px;

@@ -7,15 +7,21 @@ import ReactLoading from 'react-loading';
 
 import { LineStatusCard } from '~/components/LineStatusCard';
 
-import { useLinesColor } from '~/hooks';
-import { useAPI } from '~/hooks/useAPI';
+import { useLinesColor, useAPI } from '~/hooks';
 
-import { HomeContainer, HomeUserContainer, UserAvatar, UserSettings, UserLogout } from '~/styles/pages/home';
+import {
+  HomeContainer,
+  LoadingContainer,
+  UserContainer,
+  UserAvatar,
+  UserSettings,
+  UserLogout,
+} from '~/styles/pages/home';
 
 import { IAPIStatusRequest } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const { data } = useAPI<IAPIStatusRequest>('/lines/status', { method: 'GET' });
+  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' }, { refreshInterval: 300000 });
   const colors = useLinesColor();
   const router = useRouter();
 
@@ -27,10 +33,10 @@ const Home: NextPage = () => {
       <HomeContainer>
         {
           (!data || (!data.lines && data.lines.length < 1))
-            ? <ReactLoading type="cylon" color="#000000" />
-            : data.lines.map((line) => <LineStatusCard key={line.id} line={{ ...line }} color={colors.of(line.id)} />)
+            ? <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>
+            : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
         }
-        <HomeUserContainer>
+        <UserContainer>
           <UserAvatar>
             <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="user-avatar" />
             <div>
@@ -43,7 +49,7 @@ const Home: NextPage = () => {
           <UserLogout>
             <FaTimes size={20} />
           </UserLogout>
-        </HomeUserContainer>
+        </UserContainer>
       </HomeContainer>
     </>
   );

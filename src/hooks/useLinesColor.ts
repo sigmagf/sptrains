@@ -1,7 +1,7 @@
 import { ILinesColor } from '~/interfaces';
 
-export default () => {
-  const colorOf = (id: number) => {
+function useLinesColor() {
+  const ofLine = (id: number) => {
     const lineColors: ILinesColor = {
       1: { background: '#171796', text: '#FFFFFF' },
       2: { background: '#007A5E', text: '#FFFFFF' },
@@ -21,5 +21,7 @@ export default () => {
     return lineColors[id];
   };
 
-  return { of: colorOf };
-};
+  return { ofLine };
+}
+
+export default useLinesColor;

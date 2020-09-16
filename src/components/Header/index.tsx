@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { favicon } from '~/assets';
 
-import { HeaderContainer } from './styles';
+import { HeaderContainer, LogoContainer } from './styles';
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -14,9 +15,11 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <div className="logo-container">
-        <img src={favicon} alt="logo" />
-      </div>
+      <Link href="/">
+        <LogoContainer>
+          <img src={favicon} alt="logo" />
+        </LogoContainer>
+      </Link>
     </HeaderContainer>
   );
 };

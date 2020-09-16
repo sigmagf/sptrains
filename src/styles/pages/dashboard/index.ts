@@ -47,6 +47,7 @@ export const DashboardContainer = styled.main`
 export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyledProps>`
   z-index: 100;
 
+  min-height: 50px;
   width: 250px;
 
   position: fixed;

@@ -1,21 +1,21 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import useSWR from 'swr';
 
-import { IStatusAPIResponse } from '~/interfaces';
+type IRequestMethods = 'GET'|'POST'|'PUT'|'DELETE';
 
-interface IRequestResponse {
-  lines?: IStatusAPIResponse[];
-}
+type IRequestProps = Omit<AxiosRequestConfig, 'baseURL'|'url'>;
 
-export function useAPI() {
-  async function getStatus(): Promise<IStatusAPIResponse[]> {
-    const { data } = await axios.get<IRequestResponse>(`${process.env.NEXT_PUBLIC_API_URL}/lines/status`);
+export function useAPI<T = any>(url: string, props: IRequestProps) {
+  const { data, error } = useSWR<T>(url, async (path) => {
+    const request: AxiosRequestConfig = {
+      ...props,
+      baseURL: process.env.NEXT_PUBLIC_API_URL,
+      url: path,
+    };
 
-    if(data.lines.length > 0) {
-      return data.lines;
-    }
+    const response = await axios(request);
+    return response.data;
+  });
 
-    return null;
-  }
-
-  return { getStatus };
+  return { data, error };
 }

@@ -1,32 +1,24 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FaTrain, FaBezierCurve, FaUserCog, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import ReactLoading from 'react-loading';
 
 import { DashboardCard } from '~/components/DashboardCard';
 import { LineStatusCard } from '~/components/LineStatusCard';
 
+import { useLinesColor } from '~/hooks';
 import { useAPI } from '~/hooks/useAPI';
 
 import { DashboardContainer, DashboardStatusContainer } from '~/styles/pages/dashboard';
 
-import { IStatusAPIResponse } from '~/interfaces';
+import { IAPIStatusRequest } from '~/interfaces';
 
 const Dashboard: NextPage = () => {
-  const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
   const [linesStatusActive, setLinesStatusActive] = useState(true);
-  const api = useAPI();
+  const colors = useLinesColor();
 
-  const getData = useCallback(async () => {
-    const data = await api.getStatus();
-
-    setLinesStatus(data);
-  }, [api]);
-
-  useEffect(() => {
-    getData();
-    setInterval((getData), 300000);
-  }, []);
+  const { data } = useAPI<IAPIStatusRequest>('/lines/status', { method: 'GET' });
 
   return (
     <>
@@ -35,7 +27,11 @@ const Dashboard: NextPage = () => {
       </Head>
       <DashboardContainer>
         <DashboardStatusContainer active={linesStatusActive}>
-          {linesStatus && linesStatus.map((line) => <LineStatusCard key={line.id} line={line} />)}
+          {
+            (!data || (!data.lines && data.lines.length < 1))
+              ? <ReactLoading type="cylon" color="#000000" />
+              : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.of(line.id)} />)
+          }
           <div className="handler">
             <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>
               {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}

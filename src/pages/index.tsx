@@ -1,42 +1,23 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
+import React from 'react';
 import { FaCog, FaPen, FaTimes } from 'react-icons/fa';
+import ReactLoading from 'react-loading';
 
 import { LineStatusCard } from '~/components/LineStatusCard';
 
+import { useLinesColor } from '~/hooks';
 import { useAPI } from '~/hooks/useAPI';
 
 import { HomeContainer, HomeUserContainer, UserAvatar, UserSettings, UserLogout } from '~/styles/pages/home';
 
-import { IStatusAPIResponse } from '~/interfaces';
+import { IAPIStatusRequest } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const [linesStatus, setLinesStatus] = useState<IStatusAPIResponse[]>(null);
-  const [lineStatusInterval, setLinesStatusInterval] = useState<NodeJS.Timeout>(null);
-  const api = useAPI();
-
-  const getData = useCallback(async () => {
-    const data = await api.getStatus();
-
-    setLinesStatus(data);
-  }, [api]);
-
-  const clearTimer = () => {
-    if(lineStatusInterval) {
-      clearInterval(lineStatusInterval);
-      setLinesStatusInterval(null);
-    }
-  };
-
-  const restartTimer = useCallback(() => {
-    getData();
-    setLinesStatusInterval(setTimeout(getData, 300000));
-  }, [getData]);
-
-  useEffect(() => {
-    restartTimer();
-  }, []);
+  const { data } = useAPI<IAPIStatusRequest>('/lines/status', { method: 'GET' });
+  const colors = useLinesColor();
+  const router = useRouter();
 
   return (
     <>
@@ -44,7 +25,11 @@ const Home: NextPage = () => {
         <title>SPTrains</title>
       </Head>
       <HomeContainer>
-        { linesStatus && linesStatus.map((line) => <LineStatusCard key={line.id} line={{ ...line }} />) }
+        {
+          (!data || (!data.lines && data.lines.length < 1))
+            ? <ReactLoading type="cylon" color="#000000" />
+            : data.lines.map((line) => <LineStatusCard key={line.id} line={{ ...line }} color={colors.of(line.id)} />)
+        }
         <HomeUserContainer>
           <UserAvatar>
             <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="user-avatar" />
@@ -52,7 +37,7 @@ const Home: NextPage = () => {
               <FaPen size={20} />
             </div>
           </UserAvatar>
-          <UserSettings>
+          <UserSettings onClick={() => router.push('/dashboard')}>
             <FaCog size={20} />
           </UserSettings>
           <UserLogout>

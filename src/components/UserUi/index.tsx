@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { FaPen, FaCog, FaTimes, FaUsers } from 'react-icons/fa';
 
+import crypto from 'crypto';
+
 import { UserUiAvatar, UserUiContainer, UserUiLogout, UserUiSettings, UserUiUsers } from './styles';
 
 const UserUi: React.FC = () => {
@@ -10,7 +12,7 @@ const UserUi: React.FC = () => {
   return (
     <UserUiContainer>
       <UserUiAvatar>
-        <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="user-avatar" />
+        <img src={`https://api.adorable.io/avatars/285/${crypto.randomBytes(8).toString('hex')}`} alt="user-avatar" />
         <div>
           <FaPen size={20} />
         </div>

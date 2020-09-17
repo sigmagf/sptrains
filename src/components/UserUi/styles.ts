@@ -2,7 +2,7 @@ import { shade } from 'polished';
 import styled, { css } from 'styled-components';
 
 const commonUserButtonStyle = css`
-  position: relative;
+  position: absolute;
 
   display: flex;
   justify-content: center;
@@ -30,8 +30,6 @@ const commonUserButtonStyle = css`
 `;
 
 export const UserUiAvatar = styled.button`
-  position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,25 +99,37 @@ export const UserUiContainer = styled.div`
   top: 20px;
   right: 20px;
 
-  width: 60px;
+  height: 50px;
+  width: 50px;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 10px;
 
   :not(:hover) {
+    ${UserUiSettings},
+    ${UserUiUsers},
+    ${UserUiLogout} {
+      top: 0;
+      opacity: 0;
+    }
+  }
+
+  :hover {
     ${UserUiSettings} {
-      transform: translateY(-50px);
+      top: 60px;
+      opacity: 1;
     }
 
     ${UserUiUsers} {
-      transform: translateY(-90px);
+      top: 95px;
+      opacity: 1;
     }
 
     ${UserUiLogout} {
-      transform: translateY(-120px);
+      top: 130px;
+      opacity: 1;
     }
   }
 `;

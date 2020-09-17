@@ -109,11 +109,16 @@ export const UserUiContainer = styled.div`
   :not(:hover) {
     height: 50px;
 
-    ${UserUiSettings},
-    ${UserUiUsers},
+    ${UserUiSettings} {
+      transform: translateY(-50px);
+    }
+
+    ${UserUiUsers} {
+      transform: translateY(-80px);
+    }
+
     ${UserUiLogout} {
-      opacity: 0;
-      pointer-events: none;
+      transform: translateY(-120px);
     }
   }
 `;

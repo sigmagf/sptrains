@@ -4,6 +4,10 @@ interface IDashboardStatusContainerStyledProps {
   active: boolean
 }
 
+interface IDashboardCardStyledProps {
+  gridArea: string;
+}
+
 export const DashboardContainer = styled.main`
   position: relative;
 
@@ -11,36 +15,48 @@ export const DashboardContainer = styled.main`
   justify-content: center;
   align-items: center;
 
-  height: calc(100% - 60px);
+  height: 100%;
 
   .cards-group {
-    width: 100%;
     display: grid;
-    grid-gap: 15px;
+    grid-gap: 10px;
 
-    /* XS */
-    @media (max-width: 576px) {
-      grid-template-areas: 'S'
-                           'L'
-                           'O';
-      grid-template-columns: 1fr;
-      grid-template-rows: 190px 190px 190px;
-    }
+    grid-template-areas: 'ST LN OP';
 
-    /* MD */
-    @media (min-width: 768px) {
-      grid-template-areas: 'S L'
-                           'O O';
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 190px 190px;
-    }
+    grid-template-rows: 150px;
+    grid-template-columns: 150px 150px 150px;
+  }
+`;
 
-    /* LG */
-    @media (min-width: 992px) {
-      grid-template-areas: 'S L O';
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 190px;
-    }
+export const DashboardCard = styled.div<IDashboardCardStyledProps>`
+  box-shadow: 0 1px 8px 0 ${({ theme }) => theme.colors.shaddow};
+  overflow: hidden;
+  border-radius: 15px;
+
+  grid-area: ${({ gridArea }) => gridArea};
+  transition: 250ms ease;
+  cursor: pointer;
+
+  :hover { transform: scale(1.05); }
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    background: ${({ theme }) => theme.colors.background};
+    * { color: ${({ theme }) => theme.colors.text}; }
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 30px;
+    background: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primaryText};
+    font-weight: 800;
   }
 `;
 
@@ -48,14 +64,14 @@ export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyl
   z-index: 100;
 
   min-height: 50px;
-  width: 250px;
+  width: 260px;
 
   position: fixed;
   top: 50%;
   left: 0;
   transform: translateY(-50%) ${({ active }) => !active && 'translateX(-100%)'};
 
-  padding: 5px;
+  padding: 10px;
   background: ${({ theme }) => theme.colors.background};
   box-shadow: 3px 3px 4px 0 ${({ theme }) => theme.colors.shaddow};
 
@@ -67,7 +83,7 @@ export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyl
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 
   transition: all 250ms ease;
 
@@ -95,6 +111,9 @@ export const DashboardStatusContainer = styled.div<IDashboardStatusContainerStyl
     border-bottom-right-radius: 10px;
 
     button {
+      height: 100%;
+      width: 100%;
+
       background: none;
       border: none;
 

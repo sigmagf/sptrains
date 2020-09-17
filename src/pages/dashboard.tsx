@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import { FaTrain, FaBezierCurve, FaUserCog, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ReactLoading from 'react-loading';
 
-import { DashboardCard } from '~/components/DashboardCard';
 import { LineStatusCard } from '~/components/LineStatusCard';
+import { UserUi } from '~/components/UserUi';
 
 import { useLinesColor, useAPI } from '~/hooks';
 
-import { DashboardContainer, DashboardStatusContainer } from '~/styles/pages/dashboard';
+import { DashboardContainer, DashboardStatusContainer, DashboardCard } from '~/styles/pages/dashboard';
 
 import { IAPIStatusRequest } from '~/interfaces';
 
@@ -29,7 +29,9 @@ const Dashboard: NextPage = () => {
           {
             (!data || (!data.lines && data.lines.length < 1))
               ? <ReactLoading type="cylon" color="#000000" />
-              : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
+              : data.lines.map((line) => (
+                <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} showDetails={false} />
+              ))
           }
           <div className="handler">
             <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>
@@ -37,12 +39,23 @@ const Dashboard: NextPage = () => {
             </button>
           </div>
         </DashboardStatusContainer>
+
         <div className="cards-group">
-          <DashboardCard gridArea="S" icon={FaTrain} title="ESTAÇÕES" />
-          <DashboardCard gridArea="L" icon={FaBezierCurve} title="LINHAS" />
-          <DashboardCard gridArea="O" icon={FaUserCog} title="OPERADORES" />
+          <DashboardCard gridArea="ST">
+            <div className="icon"><FaTrain size={80} /></div>
+            <div className="title">ESTAÇÕES</div>
+          </DashboardCard>
+          <DashboardCard gridArea="LN">
+            <div className="icon"><FaBezierCurve size={80} /></div>
+            <div className="title">LINHAS</div>
+          </DashboardCard>
+          <DashboardCard gridArea="OP">
+            <div className="icon"><FaUserCog size={80} /></div>
+            <div className="title">OPERADORES</div>
+          </DashboardCard>
         </div>
       </DashboardContainer>
+      <UserUi />
     </>
   );
 };

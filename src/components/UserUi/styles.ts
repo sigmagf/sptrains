@@ -1,22 +1,26 @@
 import { shade } from 'polished';
 import styled, { css } from 'styled-components';
 
-const commonUserButtonStyle = css`
-  position: absolute;
+const mustCommonUserButtonsStyle = css`
+  position: relative;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  height: 30px;
-  width: 30px;
-
   border: none;
-  border-radius: 15px;
   box-shadow: 0 2px 8px 0 ${({ theme }) => theme.colors.shaddow};
 
   transition: 250ms ease;
   cursor: pointer;
+`;
+
+const commonUserButtonStyle = css`
+  ${mustCommonUserButtonsStyle}
+
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
   z-index: 90;
 
   :hover {
@@ -30,18 +34,11 @@ const commonUserButtonStyle = css`
 `;
 
 export const UserUiAvatar = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${mustCommonUserButtonsStyle}
 
   height: 50px;
   width: 50px;
-
-  border: none;
   border-radius: 25px;
-  box-shadow: 0 2px 8px 0 ${({ theme }) => theme.colors.shaddow};
-
-  cursor: pointer;
   z-index: 100;
 
   img {
@@ -99,37 +96,24 @@ export const UserUiContainer = styled.div`
   top: 20px;
   right: 20px;
 
-  height: 50px;
   width: 50px;
 
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  gap: 5px;
+
+  > * { flex-shrink: 0; }
 
   :not(:hover) {
+    height: 50px;
+
     ${UserUiSettings},
     ${UserUiUsers},
     ${UserUiLogout} {
-      top: 0;
       opacity: 0;
-    }
-  }
-
-  :hover {
-    ${UserUiSettings} {
-      top: 60px;
-      opacity: 1;
-    }
-
-    ${UserUiUsers} {
-      top: 95px;
-      opacity: 1;
-    }
-
-    ${UserUiLogout} {
-      top: 130px;
-      opacity: 1;
+      pointer-events: none;
     }
   }
 `;

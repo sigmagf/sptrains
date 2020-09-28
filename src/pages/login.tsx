@@ -1,11 +1,12 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import React, { useRef } from 'react';
+import { FaUser } from 'react-icons/fa';
 
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { Form } from '@unform/web';
 
-import { TextInput } from '~/components/Form/TextInput';
+import { IconInput, Password } from '~/components/Form';
 
 import { LoginContainer, LoginTitle, LoginCard } from '~/styles/pages/login';
 
@@ -33,8 +34,8 @@ const Login: NextPage = () => {
         </LoginTitle>
         <LoginCard>
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <TextInput type="text" name="username" label="Usuário" />
-            <TextInput type="password" name="password" label="Senha" />
+            <IconInput name="username" icon={FaUser} placeholder="Usuário" />
+            <Password name="password" placeholder="Senha" />
             <button type="submit">Entrar</button>
           </Form>
         </LoginCard>

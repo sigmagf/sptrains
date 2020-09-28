@@ -1,3 +1,4 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 export const LoginContainer = styled.main`
@@ -40,10 +41,10 @@ export const LoginCard = styled.div`
     flex-direction: column;
     gap: 10px;
 
-    button {
+    button[type=submit] {
       height: 40px;
 
-      box-shadow: 1px 2px 4px ${({ theme }) => theme.colors.shaddow};
+      box-shadow: 0 0 4px 1px ${({ theme }) => transparentize(0.5, theme.colors.primary)};
       border-radius: 6px;
       border: none;
       background: ${({ theme }) => theme.colors.primary};

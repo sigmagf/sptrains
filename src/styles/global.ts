@@ -31,25 +31,27 @@ export const GlobalStyle = createGlobalStyle`
 
   main {
     margin: 0 auto;
+    width: 100%;
+    height: 100%;
 
-    @media (max-width: 576px) {
-      padding: 0 15px;
+    @media (max-width: 575.98px) {
+      margin: 0 15px;
     }
 
-    @media (min-width: 576px) {
+    @media (min-width: 576px) and (max-width: 767.98px) {
       max-width: 540px;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 768px) and (max-width: 991.98px) {
       max-width: 720px;
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 992px) and (max-width: 1199.98px) {
       max-width: 960px;
     }
 
     @media (min-width: 1200px) {
-      max-width: 1140px;
+      max-width: 1150px;
     }
   }
 `;

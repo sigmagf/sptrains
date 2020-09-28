@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { IStatusLine, ILineColor } from '~/interfaces';
 
@@ -19,10 +19,12 @@ interface IDashboardStatusCard {
 }
 
 const LineStatusCard: React.FC<IDashboardStatusCard> = ({ line, color, showDetails = true }) => {
+  const cardRef = useRef<HTMLDivElement>();
   const [expanded, setExpanded] = useState(false);
 
   return (
     <LineStatusContainer
+      ref={cardRef}
       color={color.background}
       text={color.text}
       expanded={expanded}

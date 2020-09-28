@@ -17,7 +17,7 @@ const Dashboard: NextPage = () => {
   const [linesStatusActive, setLinesStatusActive] = useState(true);
   const colors = useLinesColor();
 
-  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' }, { refreshInterval: 300000 });
+  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' });
 
   return (
     <>

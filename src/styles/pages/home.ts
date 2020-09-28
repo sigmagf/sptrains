@@ -8,9 +8,9 @@ export const LoadingContainer = styled.div`
 `;
 
 export const HomeContainer = styled.main`
-  display: grid;
-  grid-gap: 15px;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 
   padding-top: 15px;
 

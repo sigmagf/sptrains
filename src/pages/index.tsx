@@ -13,7 +13,7 @@ import { HomeContainer, LoadingContainer } from '~/styles/pages/home';
 import { IAPIStatusRequest } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' }, { refreshInterval: 300000 });
+  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' });
   const colors = useLinesColor();
 
   return (

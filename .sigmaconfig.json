@@ -1,6 +1,7 @@
 {
-  "projectType": "react",
+  "projectType": "next",
   "useTypescript": true,
   "componentsPath": "src/components",
-  "pagesPath": "src/pages"
+  "pagesPath": "src/pages",
+  "pagesStylesPath": "src/styles/pages"
 }

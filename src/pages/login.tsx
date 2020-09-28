@@ -36,7 +36,7 @@ const Login: NextPage = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <IconInput name="username" icon={FaUser} placeholder="Usuário" />
             <Password name="password" placeholder="Senha" />
-            <button type="submit">Entrar</button>
+            <button type="submit">Login</button>
           </Form>
         </LoginCard>
       </LoginContainer>

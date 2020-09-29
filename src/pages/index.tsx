@@ -10,10 +10,10 @@ import { useLinesColor, useAPI } from '~/hooks';
 
 import { HomeContainer, LoadingContainer } from '~/styles/pages/home';
 
-import { IAPIStatusRequest } from '~/interfaces';
+import { IAPIStatusLine } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' });
+  const { data: { lines } } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
   const colors = useLinesColor();
 
   return (
@@ -23,9 +23,9 @@ const Home: NextPage = () => {
       </Head>
       <HomeContainer>
         {
-          (!data || (!data.lines && data.lines.length < 1))
+          (!lines || lines.length < 1)
             ? <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>
-            : data.lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
+            : lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
         }
       </HomeContainer>
       <UserUi />

@@ -1,8 +1,12 @@
-import { ILinesColor } from '~/interfaces';
+import { ILineColor } from '~/interfaces';
+
+interface ILinesColor {
+  [x: number]: ILineColor;
+}
 
 function useLinesColor() {
   const ofLine = (id: number) => {
-    const lineColors: ILinesColor = {
+    const lineColors:ILinesColor = {
       1: { background: '#171796', text: '#FFFFFF' },
       2: { background: '#007A5E', text: '#FFFFFF' },
       3: { background: '#ED2E38', text: '#FFFFFF' },

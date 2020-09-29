@@ -1,19 +1,16 @@
 /* --------------------|> API Requests Interfaces <|-------------------- */
 
-export interface IAPIStatusRequest {
-  lines: IStatusLine[];
+export interface IAPIStatusLine {
+  lines?: IStatusLine[];
+  message?: string;
 }
+
+/* ------------------------|> Line Interfaces <|------------------------ */
 
 export interface ILineColor {
   background: string;
   text: string;
 }
-
-export interface ILinesColor {
-  [x: number]: ILineColor;
-}
-
-/* ------------------------|> Line Interfaces <|------------------------ */
 
 export interface IStatusLine {
   id: number;

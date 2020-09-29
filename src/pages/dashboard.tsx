@@ -11,13 +11,13 @@ import { useLinesColor, useAPI } from '~/hooks';
 
 import { DashboardContainer, DashboardStatusContainer, DashboardCard } from '~/styles/pages/dashboard';
 
-import { IAPIStatusRequest } from '~/interfaces';
+import { IAPIStatusLine } from '~/interfaces';
 
 const Dashboard: NextPage = () => {
   const [linesStatusActive, setLinesStatusActive] = useState(true);
   const colors = useLinesColor();
 
-  const { data } = useAPI<IAPIStatusRequest>('lines/status', { method: 'GET' });
+  const { data: { lines } } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
 
   return (
     <>
@@ -27,9 +27,9 @@ const Dashboard: NextPage = () => {
       <DashboardContainer>
         <DashboardStatusContainer active={linesStatusActive}>
           {
-            (!data || (!data.lines && data.lines.length < 1))
+            (!lines || lines.length < 1)
               ? <ReactLoading type="cylon" color="#000000" />
-              : data.lines.map((line) => (
+              : lines.map((line) => (
                 <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} showDetails={false} />
               ))
           }

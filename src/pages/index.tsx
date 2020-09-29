@@ -16,10 +16,7 @@ const Home: NextPage = () => {
   const colors = useLinesColor();
   const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
 
-  const renderLineCard = (l: IStatusLine) => {
-    const line = <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} showDetails={false} />;
-    return line;
-  };
+  const renderLineCard = (l: IStatusLine) => <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} />;
   const reactLoading = <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>;
 
   return (

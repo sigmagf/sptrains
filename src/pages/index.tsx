@@ -13,7 +13,7 @@ import { HomeContainer, LoadingContainer } from '~/styles/pages/home';
 import { IAPIStatusLine } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const { data: { lines } } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
+  const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
   const colors = useLinesColor();
 
   return (
@@ -22,11 +22,11 @@ const Home: NextPage = () => {
         <title>SPTrains</title>
       </Head>
       <HomeContainer>
-        {
-          (!lines || lines.length < 1)
+        { data && (
+          (!data.lines || data.lines.length < 1)
             ? <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>
-            : lines.map((line) => <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} />)
-        }
+            : data.lines.map((l) => <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} />)
+        )}
       </HomeContainer>
       <UserUi />
     </>

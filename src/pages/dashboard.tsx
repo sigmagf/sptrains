@@ -17,7 +17,7 @@ const Dashboard: NextPage = () => {
   const [linesStatusActive, setLinesStatusActive] = useState(true);
   const colors = useLinesColor();
 
-  const { data: { lines } } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
+  const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
 
   return (
     <>
@@ -26,13 +26,11 @@ const Dashboard: NextPage = () => {
       </Head>
       <DashboardContainer>
         <DashboardStatusContainer active={linesStatusActive}>
-          {
-            (!lines || lines.length < 1)
+          { data && (
+            (!data.lines || data.lines.length < 1)
               ? <ReactLoading type="cylon" color="#000000" />
-              : lines.map((line) => (
-                <LineStatusCard key={line.id} line={line} color={colors.ofLine(line.id)} showDetails={false} />
-              ))
-          }
+              : data.lines.map((l) => <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} details={false} />)
+          )}
           <div className="handler">
             <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>
               {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}

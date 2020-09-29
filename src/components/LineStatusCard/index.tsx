@@ -15,7 +15,7 @@ import {
 interface IDashboardStatusCard {
   line: IStatusLine;
   color: ILineColor;
-  showDetails?: boolean;
+  details?: boolean;
 }
 
 const LineStatusCard: React.FC<IDashboardStatusCard> = ({ line, color, showDetails = true }) => {

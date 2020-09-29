@@ -10,11 +10,17 @@ import { useLinesColor, useAPI } from '~/hooks';
 
 import { HomeContainer, LoadingContainer } from '~/styles/pages/home';
 
-import { IAPIStatusLine } from '~/interfaces';
+import { IAPIStatusLine, IStatusLine } from '~/interfaces';
 
 const Home: NextPage = () => {
-  const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
   const colors = useLinesColor();
+  const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
+
+  const renderLineCard = (l: IStatusLine) => {
+    const line = <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} showDetails={false} />;
+    return line;
+  };
+  const reactLoading = <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>;
 
   return (
     <>
@@ -22,11 +28,7 @@ const Home: NextPage = () => {
         <title>SPTrains</title>
       </Head>
       <HomeContainer>
-        { data && (
-          (!data.lines || data.lines.length < 1)
-            ? <LoadingContainer><ReactLoading type="cylon" color="#000000" /></LoadingContainer>
-            : data.lines.map((l) => <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} />)
-        )}
+        { (!data || (data.lines && data.lines.length < 1)) ? reactLoading : data.lines.map(renderLineCard)}
       </HomeContainer>
       <UserUi />
     </>

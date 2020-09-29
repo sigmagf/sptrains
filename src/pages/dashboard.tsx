@@ -11,13 +11,18 @@ import { useLinesColor, useAPI } from '~/hooks';
 
 import { DashboardContainer, DashboardStatusContainer, DashboardCard } from '~/styles/pages/dashboard';
 
-import { IAPIStatusLine } from '~/interfaces';
+import { IAPIStatusLine, IStatusLine } from '~/interfaces';
 
 const Dashboard: NextPage = () => {
   const [linesStatusActive, setLinesStatusActive] = useState(true);
   const colors = useLinesColor();
-
   const { data } = useAPI<IAPIStatusLine>('lines/status', { method: 'GET' });
+
+  const renderLineCard = (l: IStatusLine) => {
+    const line = <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} showDetails={false} />;
+    return line;
+  };
+  const reactLoading = <ReactLoading type="cylon" color="#000000" />;
 
   return (
     <>
@@ -26,11 +31,7 @@ const Dashboard: NextPage = () => {
       </Head>
       <DashboardContainer>
         <DashboardStatusContainer active={linesStatusActive}>
-          { data && (
-            (!data.lines || data.lines.length < 1)
-              ? <ReactLoading type="cylon" color="#000000" />
-              : data.lines.map((l) => <LineStatusCard key={l.id} line={l} color={colors.ofLine(l.id)} details={false} />)
-          )}
+          { (!data || (data.lines && data.lines.length < 1)) ? reactLoading : data.lines.map(renderLineCard)}
           <div className="handler">
             <button type="button" onClick={() => setLinesStatusActive((old) => !old)}>
               {linesStatusActive ? <FaChevronLeft /> : <FaChevronRight />}

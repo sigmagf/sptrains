@@ -1,8 +1,8 @@
 /* --------------------|> API Requests Interfaces <|-------------------- */
 
 export interface IAPIStatusLine {
-  lines?: IStatusLine[];
-  message?: string;
+  lines: IStatusLine[];
+  message: string;
 }
 
 /* ------------------------|> Line Interfaces <|------------------------ */
